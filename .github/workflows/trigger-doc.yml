@@ -1,0 +1,23 @@
+name: Trigger iFlow Doc Generation
+
+on:
+  push:
+    paths:
+      - 'iflows/**'  # Only trigger if files in iflows/ change
+
+jobs:
+  notify-python-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Python Repo Workflow via Repository Dispatch
+        uses: peter-evans/repository-dispatch@v2
+        with:
+          token: ${{ secrets.PYTHON_REPO_TOKEN }}
+          repository: <username>/<python-repo>   # Repo B
+          event-type: generate-iflow-doc
+          client-payload: |
+            {
+              "iflow_repo": "${{ github.repository }}",
+              "branch": "${{ github.ref }}",
+              "changed_files": "${{ github.event.head_commit.modified }}"
+            }
