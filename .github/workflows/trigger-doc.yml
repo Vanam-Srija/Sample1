@@ -1,13 +1,12 @@
+# .github/workflows/trigger-doc-gen.yml
 name: Trigger iFlow Doc Generation
 
 on:
   push:
+    branches:
+      - main
     paths:
       - 'iflows/**'
-
-permissions:
-  contents: read
-  actions: write
 
 jobs:
   notify-python-repo:
@@ -19,9 +18,3 @@ jobs:
           token: ${{ secrets.PYTHON_REPO_TOKEN }}
           repository: Vanam-Srija/Project_Sample
           event-type: generate-iflow-doc
-          client-payload: |
-            {
-              "iflow_repo": "${{ github.repository }}",
-              "branch": "${{ github.ref }}",
-              "changed_files": "${{ join(github.event.head_commit.modified, ', ') }}"
-            }
