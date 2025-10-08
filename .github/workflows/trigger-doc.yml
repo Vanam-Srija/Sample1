@@ -13,7 +13,7 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PYTHON_REPO_TOKEN }}
-          repository: Vanam-Srija/Github_Actions   # Repo B
+          repository: Vanam-Srija/Project_Sample  # Repo B
           event-type: generate-iflow-doc
           client-payload: |
             {
