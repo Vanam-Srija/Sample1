@@ -3,7 +3,11 @@ name: Trigger iFlow Doc Generation
 on:
   push:
     paths:
-      - 'iflows/**'  # Only trigger if files in iflows/ change
+      - 'iflows/**'
+
+permissions:
+  contents: read
+  actions: write
 
 jobs:
   notify-python-repo:
@@ -13,11 +17,11 @@ jobs:
         uses: peter-evans/repository-dispatch@v2
         with:
           token: ${{ secrets.PYTHON_REPO_TOKEN }}
-          repository: Vanam-Srija/Project_Sample  # Repo B
+          repository: Vanam-Srija/Project_Sample
           event-type: generate-iflow-doc
           client-payload: |
             {
               "iflow_repo": "${{ github.repository }}",
               "branch": "${{ github.ref }}",
-              "changed_files": "${{ github.event.head_commit.modified }}"
+              "changed_files": "${{ join(github.event.head_commit.modified, ', ') }}"
             }
